@@ -4,9 +4,12 @@ import com.schools.Schools.course.request.CreateCourseRequest;
 import com.schools.Schools.course.request.UpdateCourseRequest;
 import com.schools.Schools.exceptions.CourseExistsException;
 import com.schools.Schools.exceptions.CourseNotFoundException;
+import com.schools.Schools.exceptions.ForbiddenActionsException;
 import com.schools.Schools.exceptions.InstitutionDoesNotExistException;
 import com.schools.Schools.institution.Institution;
 import com.schools.Schools.institution.InstitutionRepository;
+import com.schools.Schools.student.Student;
+import com.schools.Schools.student.StudentRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ import java.util.Optional;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final InstitutionRepository institutionRepository;
+    private final StudentRepository studentRepository;
 
     public Course createCourse(CreateCourseRequest request){
         System.out.println(request.getInstitutionId());
@@ -64,6 +68,11 @@ public class CourseService {
     }
 
     public void deleteCourse(Long id){
+        //check if the course has students
+        List<Student> students = studentRepository.findByCourseId(id);
+        if(!students.isEmpty()){
+            throw new ForbiddenActionsException("Course has Students");
+        }
         courseRepository.deleteById(id);
     }
 
@@ -77,9 +86,7 @@ public class CourseService {
         Optional<Course> checkCourse = courseRepository.findByNameAndInstitutionId(request.getNewName(), request.getInstId());
         Optional<Course> courseToBeEdited = courseRepository.findById(request.getCourseId());
         if(checkCourse.isPresent() ){
-            if(courseToBeEdited.isPresent() && !courseToBeEdited.get().getId().equals(request.getCourseId())){
                 throw new CourseExistsException("A course with that name exists");
-            }
         }
 
         //edit the course

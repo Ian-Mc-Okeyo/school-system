@@ -29,7 +29,7 @@ public class InstitutionController {
 
     @GetMapping("/get-by-name")
     public ResponseEntity<InstitutionResponse> getByName(@RequestParam String name){
-        return ResponseEntity.status(HttpStatus.FOUND).body(institutionService.getByName(name));
+        return ResponseEntity.status(HttpStatus.OK).body(institutionService.getByName(name));
     }
 
     @GetMapping("/get-all-ascending")

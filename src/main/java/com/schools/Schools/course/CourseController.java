@@ -27,17 +27,17 @@ public class CourseController {
 
     @GetMapping("/search")
     public ResponseEntity<Course> searchCourseByName(@RequestParam String name, @RequestParam Long id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(courseService.searchByNameAndInst(name, id));
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.searchByNameAndInst(name, id));
     }
 
     @GetMapping("/get-order-asc")
     public ResponseEntity<List<Course>> findAscOrder(@RequestParam Long id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(courseService.findInstCoursesOrderAsc(id));
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.findInstCoursesOrderAsc(id));
     }
 
     @GetMapping("/get-order-desc")
     public ResponseEntity<List<Course>> findDescOrder(@RequestParam Long id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(courseService.findInstCoursesOrderDesc(id));
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.findInstCoursesOrderDesc(id));
     }
 
     @DeleteMapping("/delete")

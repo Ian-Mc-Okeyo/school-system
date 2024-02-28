@@ -25,9 +25,4 @@ public class Institution {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Student> students = new HashSet<>();
-
-    @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Course> courseList;
 }

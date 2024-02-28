@@ -99,6 +99,7 @@ public class StudentService {
 
         //transfer
         student.setInstitution(institution);
+        student.setCourse(course);
         studentRepository.save(student);
     }
 
